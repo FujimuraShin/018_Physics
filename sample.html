@@ -1,0 +1,42 @@
+<canvas id="canvas"></canvas>
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = 600;
+canvas.height = 300;
+
+// 初期値
+let x = 400;     // 位置
+let v = 0;       // 速度
+let k = 0.02;    // バネ定数
+let m = 1;       // 質量
+let center = 300; // 平衡位置
+
+function update() {
+    // 加速度（フックの法則）
+    let a = -k * (x - center) / m;
+
+    // オイラー法
+    v += a;
+    x += v;
+
+    // 描画
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // バネっぽい線
+    ctx.beginPath();
+    ctx.moveTo(center, 150);
+    ctx.lineTo(x, 150);
+    ctx.stroke();
+
+    // 質点
+    ctx.beginPath();
+    ctx.arc(x, 150, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    requestAnimationFrame(update);
+}
+
+update();
+</script>
